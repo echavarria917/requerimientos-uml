@@ -1,0 +1,53 @@
+# Samuel Mora Echavarria
+# Fecha : 04/08/2026
+# Descripcion : Programa para cifrar  o decifrar un mensaje mediante la cifra cesar
+
+import pyperclip
+
+# Simbolos que pueden cifrarse 
+# ALFABETO = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+ALFABETO  = [chr(letra)for letra in range (65, 91)]
+
+# almacena la cadena cifrada/descifrada
+salida = ''
+
+# Guarda la opcion deseada 
+modo = input("Desea cifrar o descifrar un mensaje? (c/d): ")
+
+# Se almacena el texto y la clave 
+texto = input("Ingrese el texto: ")
+while True:
+    clave = int(input("Ingrese la clave [1-25]: "))
+
+    if 1 <= clave <= 25:
+        break
+
+    print("Error. La clave debe estar entre 1 y 25.\n")
+
+# Ejecutar el proceso de letra a letra 
+for simbolo in texto.upper():
+    if simbolo in ALFABETO:
+        # Se identifica la posicion de cada simbolo 
+        pos = ALFABETO.index(simbolo)
+        
+        # Ejecuta la posicion de cifrado o descifrado 
+        if modo.upper() == "C":
+            pos = (pos + clave) % len(ALFABETO)
+        else:
+            pos = (pos - clave) % len(ALFABETO)
+
+        # Añade el nuevo simbolo a la cadena
+        salida += ALFABETO[pos]
+    else:
+        # Añade a la cadena el simbolo sin cifrar ni decifrar 
+        # Porque no esta en el alfabeto
+        salida += simbolo
+
+# Copia el mensaje en portapapeles
+pyperclip.copy(salida)
+
+print()
+print("Resultado:", salida)
+print("El mensaje también se copió al portapapeles.")    
+  
+# Descifrar con una fuuncion que no nesecite darle la clave, solo el mensaje cifrado
